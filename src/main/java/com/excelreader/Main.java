@@ -123,23 +123,15 @@ public class Main{
                 for (String peak : westBoundPeaks) {
                     if (value.contains(peak)) {
                         row.put("westBoundPeak", true);
+                        row.put("peakContra", "Peak");
                         isPeak = true;
                         break;
                     }
                 }
                 if (!isPeak)
                     row.put("westBoundPeak", false);
+                    row.put("peakContra", "Contra");
             }
-        }
-    }
-
-    private static void determinePeakContra (JSONObject object){
-        for (String key : object.keySet()) {
-            JSONObject row = object.getJSONObject(key);
-            if (row.getBoolean("westBoundPeak"))
-                row.put("peakContra", "Peak");
-            else
-                row.put("peakContra", "Contra");
         }
     }
 
@@ -267,8 +259,8 @@ public class Main{
      *
      */
     public static void main (String[] args) {
-        // String csvFilePath = "C:\\Users\\Epic1\\Downloads\\list1144083230993983212.survey.csv";
-        String csvFilePath = "C:\\Users\\Epic1\\Downloads\\test_data.csv";
+        String csvFilePath = "C:\\Users\\Epic1\\Downloads\\list1144083230993983212.survey.csv";
+        // String csvFilePath = "C:\\Users\\Epic1\\Downloads\\test_data.csv";
         String resultsFilePath = csvFilePath.replace(".csv", "_results.csv");
 
         List<List<String>> data = parseCSV(csvFilePath);
@@ -277,7 +269,6 @@ public class Main{
 
         JSONObject jsonData = createJSONObject(data, headers);
         determineWestboundPeaks(jsonData);
-        determinePeakContra(jsonData);
         determineRands(jsonData);
         rankValues(jsonData, "Peak");
         rankValues(jsonData, "Contra");
